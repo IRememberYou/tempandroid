@@ -14,13 +14,13 @@ import android.view.View;
  * recycleview 的条目点击事件
  */
 public abstract class RecyclerViewItemClick implements RecyclerView.OnItemTouchListener {
-    private RecyclerView touchView;
+    private RecyclerView recyclerView;
     private GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
-            final View childView = touchView.findChildViewUnder(ev.getX(), ev.getY());
+            final View childView = recyclerView.findChildViewUnder(ev.getX(), ev.getY());
             if (childView != null) {
-                onItemClick(childView, touchView.getChildAdapterPosition(childView));
+                onItemClick(childView, recyclerView.getChildAdapterPosition(childView));
             }
             return true;
         }
@@ -29,7 +29,7 @@ public abstract class RecyclerViewItemClick implements RecyclerView.OnItemTouchL
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         gestureDetector.onTouchEvent(e);
-        touchView = rv;
+        recyclerView = rv;
         return false;
     }
     

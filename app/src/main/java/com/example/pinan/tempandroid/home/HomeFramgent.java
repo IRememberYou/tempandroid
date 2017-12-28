@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.pinan.tempandroid.R;
-import com.example.pinan.tempandroid.ResultDealActivity;
 import com.example.pinan.tempandroid.base.BaseFragemnt;
 import com.example.pinan.tempandroid.home.adapter.HomeAdapter;
 import com.example.pinan.tempandroid.utils.RecyclerViewItemClick;
@@ -45,12 +44,27 @@ public class HomeFramgent extends BaseFragemnt {
             @Override
             protected void onItemClick(View view, int position) {
                 Toast.makeText(mContext, modules[position], Toast.LENGTH_SHORT).show();
-                if (position == 1) {
-                    startActivity(ResultDealActivity.class);
+                
+                switch (position) {
+                    case 0:
+                        //电话
+                        startActivity(PhoneActivity.class);
+                        break;
+                    case 1:
+                        //短信
+                        startActivity(ResultDealActivity.class);
+                        break;
+                    case 2:
+                        //文件清理
+                        break;
+                    case 3:
+                        //已装的 app
+                        break;
+                    default:
+                        break;
+                    
                 }
             }
         });
     }
-    
-   
 }

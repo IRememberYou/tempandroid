@@ -22,18 +22,22 @@ public abstract class QuickAdapter<T> extends RecyclerView.Adapter<QuickAdapter.
         this.resId = resId;
     }
     
+    public T getItem(int position) {
+        return list.get(position);
+    }
+    
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public QuickAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(resId, parent, false);
         return new ViewHolder(view);
     }
     
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        dealBindViewHolder(holder, list.get(position));
+    public void onBindViewHolder(QuickAdapter.ViewHolder holder, int position) {
+        onBindViewHolder(holder, list.get(position));
     }
     
-    protected abstract void dealBindViewHolder(ViewHolder holder, T t);
+    protected abstract void onBindViewHolder(ViewHolder holder, T t);
     
     @Override
     public int getItemCount() {
@@ -48,8 +52,9 @@ public abstract class QuickAdapter<T> extends RecyclerView.Adapter<QuickAdapter.
             this.itemView = itemView;
         }
         
-        public void setText(int id, String text) {
+        public ViewHolder setText(int id, String text) {
             ((TextView) itemView.findViewById(id)).setText(text);
+            return this;
         }
         
         public <T extends View> T getView(int id) {

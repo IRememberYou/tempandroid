@@ -8,12 +8,11 @@ package com.example.pinan.tempandroid.home.bean;
 public class SmsMessage {
     public String content;
     public String phone;
-    public String type;//1:接受的短信; 2:发送的短信
+    public String type;//1:接收的短信; 2:发送的短信
     public String time;//时间
-    public String number;//中心号码
+    public String read;//是否阅读0未读,1已读
     
-    
-    public SmsMessage(String content, String phone, String type, String time) {
+    public SmsMessage(String content, String phone, String type, String time, String read) {
         this.content = content;
         this.phone = phone;
         this.type = type;
@@ -27,7 +26,6 @@ public class SmsMessage {
             ", phone='" + phone + '\'' +
             ", type='" + type + '\'' +
             ", time='" + time + '\'' +
-            ", number='" + number + '\'' +
             '}';
     }
 }

@@ -15,6 +15,6 @@ public class DateUtil {
      */
     public static String dateFormat(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        return sdf.format(new Date(Integer.parseInt(time)));
+        return sdf.format(new Date(Long.parseLong(time)));
     }
 }
