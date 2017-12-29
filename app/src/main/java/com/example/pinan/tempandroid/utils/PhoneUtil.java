@@ -1,14 +1,21 @@
 package com.example.pinan.tempandroid.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
+import com.example.pinan.tempandroid.home.bean.CallHistory;
 import com.example.pinan.tempandroid.home.bean.ContactsMessagge;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * @author pinan
@@ -72,10 +79,68 @@ public class PhoneUtil {
     /**
      * 拨打的电话,拨出的电话,未接电话(通话记录)
      */
+    public static List<CallHistory> getCallHistoryList(Context context) {
+        List<CallHistory> list = new ArrayList<>();
+        
+        ContentResolver resolver = context.getContentResolver();
+        //联系人 uri
+        Uri uri = CallLog.Calls.CONTENT_URI;
+        //对应的是名字,号码,通话类型(呼入,呼出,未接),时间,通话时长
+        String[] projection = new String[]{
+            CallLog.Calls.CACHED_NAME,
+            CallLog.Calls.NUMBER,
+            CallLog.Calls.TYPE,
+            CallLog.Calls.DATE,
+            CallLog.Calls.DURATION
+        };
+        //查询语句
+        Cursor cursor = resolver.query(uri,
+            projection, null, null, "date desc");
+        while (cursor != null && cursor.moveToNext()) {
+            String callName = cursor.getString(0);
+            String callNum = cursor.getString(1);
+            String type = cursor.getString(2);
+            String date = cursor.getString(3);
+            String duration = cursor.getString(4);
+            
+            //如果名字为空,去通讯录中查询是否有对应得联系人
+            if (TextUtils.isEmpty(callName)) {
+                //设置查询条件
+                Cursor query = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME},
+                    ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",
+                    new String[]{callNum},
+                    null);
+                while (query != null & query.moveToNext()) {
+                    callName = query.getString(0);
+                    query.close();
+                    break;
+                }
+            }
+            list.add(new CallHistory(callName, callNum, type, date, duration));
+        }
+        cursor.close();
+        return list;
+    }
     
     /**
-     * 来电监听
+     * 来电监听(方式有多种,这里介绍两种)
+     * 其一:{@link #callListener}
+     * 其二:则是用广播({@link com.example.pinan.tempandroid.home.receiver.PhoneStateReceiver})
+     * <p>
+     * 其一的使用方式:
+     *
+     * @param listener 一般是继承PhoneStateListener类,重写方法onCallStateChanged.
+     *                 onCallStateChanged方法中的参数1(state)
+     *                 state 的含义:
+     *                 1,TelephonyManager.CALL_STATE_IDLE  //电话挂断了
+     *                 2,TelephonyManager.CALL_STATE_RINGING //来电响铃
+     *                 3,TelephonyManager.CALL_STATE_OFFHOOK //来电接通 或者 去电，去电接通  但是没法区分
      */
+    public static void callListener(Context context, PhoneStateListener listener) {
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        manager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+    }
     
     /**
      * 打电话

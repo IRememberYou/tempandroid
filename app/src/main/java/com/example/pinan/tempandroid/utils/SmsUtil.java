@@ -81,7 +81,10 @@ public class SmsUtil {
     
     /**
      * <p>
-     * 发送短信,方法有两种,其一${SmsUtil.sendSms()},其二看${SmsUtil.doSendSMSTo()}
+     * 发送短信,方法有两种,
+     * 其一{@link #sendSms} ,
+     * 其二{@link #doSendSMSTo},
+     * <p>
      * 其一可以监控发送状态和对方接收状态,因此使用的比较多
      * <p>
      * <p>

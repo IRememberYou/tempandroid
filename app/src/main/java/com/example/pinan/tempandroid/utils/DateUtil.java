@@ -14,7 +14,7 @@ public class DateUtil {
      * 格式化时间 yyyy-MM-dd HH-mm-ss
      */
     public static String dateFormat(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date(Long.parseLong(time)));
     }
 }
