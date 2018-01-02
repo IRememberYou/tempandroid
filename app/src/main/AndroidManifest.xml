@@ -39,6 +39,7 @@
             android:name=".home.ResultDealActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity android:name=".home.PhoneActivity"/>
+        <activity android:name=".home.PictureActivity"/>
 
         <receiver android:name=".home.receiver.SmsReceiver">
             <intent-filter android:priority="1000">
