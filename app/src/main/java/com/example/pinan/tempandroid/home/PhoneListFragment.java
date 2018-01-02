@@ -5,12 +5,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.pinan.tempandroid.R;
 import com.example.pinan.tempandroid.base.BaseFragemnt;
 import com.example.pinan.tempandroid.home.adapter.CallHistoryAdapter;
 import com.example.pinan.tempandroid.home.adapter.ContactsListAdapter;
+import com.example.pinan.tempandroid.home.bean.CallHistory;
+import com.example.pinan.tempandroid.home.bean.ContactsMessagge;
 import com.example.pinan.tempandroid.utils.PhoneUtil;
+import com.example.pinan.tempandroid.utils.RecyclerViewItemClick;
 
 import butterknife.BindView;
 
@@ -47,5 +51,21 @@ public class PhoneListFragment extends BaseFragemnt {
         } else if (tag.equals("通话记录")) {
             recyclerView.setAdapter(new CallHistoryAdapter(PhoneUtil.getCallHistoryList(mContext)));
         }
+        
+        recyclerView.addOnItemTouchListener(new RecyclerViewItemClick() {
+            @Override
+            protected void onItemClick(View view, int position) {
+                RecyclerView.Adapter adapter = recyclerView.getAdapter();
+                if (adapter instanceof ContactsListAdapter) {
+                    Toast.makeText(mContext, "联系人", Toast.LENGTH_SHORT).show();
+                    ContactsMessagge item = ((ContactsListAdapter) adapter).getItem(position);
+                    PhoneUtil.call(mContext, item.phone.get(0));
+                } else if (adapter instanceof CallHistoryAdapter) {
+                    Toast.makeText(mContext, "通话记录", Toast.LENGTH_SHORT).show();
+                    CallHistory item = ((CallHistoryAdapter) adapter).getItem(position);
+                    PhoneUtil.call(mContext, item.number);
+                }
+            }
+        });
     }
 }

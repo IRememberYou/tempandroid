@@ -2,6 +2,7 @@ package com.example.pinan.tempandroid.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
@@ -144,5 +145,17 @@ public class PhoneUtil {
     
     /**
      * 打电话
+     * 权限:
+     * <uses-permission android:name="android.permission.CALL_PHONE" />
      */
+    
+    public static void call(Context context, String number) {
+        //方式一:跳过拨号界面，直接拨打电话(为了提高用户体验度,最好调用下面的方法时添加一个提示按钮, 比如电话是否拨打)
+//        Intent intent1 = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
+//        context.startActivity(intent1);
+        //方式二:调用拨打界面拨打
+        Intent intent2 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent2);
+    }
 }

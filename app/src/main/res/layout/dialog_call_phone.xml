@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+
+        android:id="@+id/et_number"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="请输入你要拨打的电话号码"
+        android:inputType="phone"/>
+
+    <Button
+        android:id="@+id/btn_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/et_number"
+        android:layout_marginTop="10dp"
+        android:text="拨打电话"/>
+
+</RelativeLayout>
