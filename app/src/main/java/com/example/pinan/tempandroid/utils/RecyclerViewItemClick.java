@@ -20,7 +20,7 @@ public abstract class RecyclerViewItemClick implements RecyclerView.OnItemTouchL
         public boolean onSingleTapUp(MotionEvent ev) {
             final View childView = recyclerView.findChildViewUnder(ev.getX(), ev.getY());
             if (childView != null) {
-                onItemClick(childView, recyclerView.getChildAdapterPosition(childView));
+                onItemClick(recyclerView.getAdapter(), childView, recyclerView.getChildAdapterPosition(childView));
             }
             return true;
         }
@@ -33,7 +33,8 @@ public abstract class RecyclerViewItemClick implements RecyclerView.OnItemTouchL
         return false;
     }
     
-    protected abstract void onItemClick(View view, int position);
+    
+    protected abstract <T extends RecyclerView.Adapter> void onItemClick(T adapter, View view, int position);
     
     @Override
     public void onTouchEvent(RecyclerView rv, MotionEvent e) {

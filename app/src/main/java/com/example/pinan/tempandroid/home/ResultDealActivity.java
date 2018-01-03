@@ -56,8 +56,8 @@ public class ResultDealActivity extends BaseActivity {
         
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClick() {
             @Override
-            protected void onItemClick(View view, int position) {
-                SmsMessage item = ((SmsListAdapter) recyclerView.getAdapter()).getItem(position);
+            protected <T extends RecyclerView.Adapter> void onItemClick(T adapter, View view, int position) {
+                SmsMessage item = ((SmsListAdapter) adapter).getItem(position);
                 //弹框 todo 将其封装通用
                 SmsDialogFramgent.newInstace(item.phone)
                     .show(getSupportFragmentManager(), "smsdialogframgent");

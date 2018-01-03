@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +55,12 @@ public class SimpleDialogFragment extends DialogFragment {
         getDialog().getWindow().setAttributes(params);
     }
     
+    public SimpleDialogFragment show(String... tags) {
+        String tag = tags != null && tags.length > 0 ? tags[0] : "tag";
+        super.show(((FragmentActivity) view.getContext()).getSupportFragmentManager(), tag);
+        return this;
+    }
+    
     @Override
     public void onStart() {
         super.onStart();
@@ -84,6 +93,19 @@ public class SimpleDialogFragment extends DialogFragment {
             return this;
         }
         
+        /**
+         * 给 recycleview 设置点击事件
+         *
+         * @param id       recycleview 的 id
+         * @param listener 自定义的点击事件{com.example.pinan.tempandroid.utils.RecyclerViewItemClick}
+         * @return
+         */
+        public Builder addOnItemTouchListener(int id, RecyclerView.OnItemTouchListener listener) {
+            RecyclerView recyclerView = itemView.findViewById(id);
+            recyclerView.addOnItemTouchListener(listener);
+            return this;
+        }
+        
         public <T extends View> T getView(int id) {
             return itemView.findViewById(id);
         }
@@ -91,6 +113,20 @@ public class SimpleDialogFragment extends DialogFragment {
         public CharSequence getText(int id) {
             TextView view = itemView.findViewById(id);
             return view.getText();
+        }
+        
+        public Builder setRecycle(int id, RecyclerView.Adapter adapter, RecyclerView.LayoutManager... layoutManagers) {
+            RecyclerView recyclerView = itemView.findViewById(id);
+            //如果不设置,则默认是 LinearLayoutManager
+            boolean b = layoutManagers != null && layoutManagers.length > 0;
+            RecyclerView.LayoutManager layoutManager = b ? layoutManagers[0] : new LinearLayoutManager(context);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+            return this;
+        }
+        
+        public RecyclerView getRecycleView(int id) {
+            return itemView.findViewById(id);
         }
         
         public View getItemView() {

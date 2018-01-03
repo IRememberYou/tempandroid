@@ -52,9 +52,8 @@ public class HomeFramgent extends BaseFragemnt {
         mRecyclerView.setAdapter(homeAdapter);
         mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClick() {
             @Override
-            protected void onItemClick(View view, int position) {
+            protected <T extends RecyclerView.Adapter> void onItemClick(T adapter, View view, int position) {
                 Toast.makeText(mContext, modules[position], Toast.LENGTH_SHORT).show();
-                
                 switch (position) {
                     case 0:
                         //电话
@@ -83,7 +82,7 @@ public class HomeFramgent extends BaseFragemnt {
                         recyclerView.setAdapter(new AppListAdapter(allApp));
                         recyclerView.addOnItemTouchListener(new RecyclerViewItemClick() {
                             @Override
-                            protected void onItemClick(View view, int position) {
+                            protected <T extends RecyclerView.Adapter> void onItemClick(T adapter, View view, int position) {
                                 AppBean item = ((AppListAdapter) recyclerView.getAdapter()).getItem(position);
                                 AppUtil.startApp(mContext, item.packageName);
                             }
@@ -99,6 +98,7 @@ public class HomeFramgent extends BaseFragemnt {
                     
                 }
             }
+            
         });
     }
 }

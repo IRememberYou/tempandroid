@@ -54,8 +54,7 @@ public class PhoneListFragment extends BaseFragemnt {
         
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClick() {
             @Override
-            protected void onItemClick(View view, int position) {
-                RecyclerView.Adapter adapter = recyclerView.getAdapter();
+            protected <T extends RecyclerView.Adapter> void onItemClick(T adapter, View view, int position) {
                 if (adapter instanceof ContactsListAdapter) {
                     Toast.makeText(mContext, "联系人", Toast.LENGTH_SHORT).show();
                     ContactsMessagge item = ((ContactsListAdapter) adapter).getItem(position);
