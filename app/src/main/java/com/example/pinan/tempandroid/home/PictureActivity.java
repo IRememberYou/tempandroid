@@ -18,11 +18,11 @@ import com.example.pinan.tempandroid.base.SimpleDialogFragment;
 import com.example.pinan.tempandroid.home.adapter.PhotoAllAdapter;
 import com.example.pinan.tempandroid.utils.PhotoUtil;
 import com.example.pinan.tempandroid.utils.RecyclerViewItemClick;
+import com.yanzhenjie.album.Album;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -95,13 +95,11 @@ public class PictureActivity extends BaseActivity {
             }
         } else if (requestCode == PhotoUtil.PICK_IMAGE) {
             if (resultCode == RESULT_OK) {
-                Set<String> categories = data.getCategories();
-
-//                mImageView.getHandler().removeCallbacksAndMessages(null);
+                mImageView.getHandler().removeCallbacksAndMessages(null);
                 // 判断是否成功。
                 // 拿到用户选择的图片路径List：
-//                pathList = Album.parseResult(data);
-//                mImageView.getHandler().postDelayed(mRunnable, 1000);
+                pathList = Album.parseResult(data);
+                mImageView.getHandler().postDelayed(mRunnable, 1000);
             } else if (resultCode == RESULT_CANCELED) {
                 // 用户取消选择。
                 // 根据需要提示用户取消了选择。

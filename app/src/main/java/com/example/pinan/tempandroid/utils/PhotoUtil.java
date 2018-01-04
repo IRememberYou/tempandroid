@@ -8,6 +8,8 @@ import android.media.ExifInterface;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.yanzhenjie.album.Album;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +54,13 @@ public class PhotoUtil {
      */
     public static void selectMorePic(Activity activity, int requestCode) {
         //方式一:用第三方库
-//        Album.startAlbum(activity, 1003, 9);
+        Album.startAlbum(activity, 1002, 9);
         //方式二:
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        Intent.createChooser(intent, "Select Picture");
-        activity.startActivityForResult(intent, PICK_IMAGE);
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        Intent.createChooser(intent, "Select Picture");
+//        activity.startActivityForResult(intent, PICK_IMAGE);
     }
     
     /**
