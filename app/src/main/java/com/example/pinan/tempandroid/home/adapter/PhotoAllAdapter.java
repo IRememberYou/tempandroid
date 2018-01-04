@@ -22,15 +22,14 @@ public class PhotoAllAdapter extends QuickAdapter<List<Object>> {
     @Override
     protected void onBindViewHolder(ViewHolder holder, List<Object> objects) {
         String name = (String) objects.get(0);
-        byte[] data = (byte[]) objects.get(1);
+        String data = (String) objects.get(1);
         String desc = (String) objects.get(2);
         
-        String filePath = new String(data, 0, data.length - 1);
         holder.setText(R.id.tv_name, name)
-            .setText(R.id.tv_location, filePath)
+            .setText(R.id.tv_location, data)
             .setText(R.id.tv_desc, desc);
         
-        Bitmap bm = BitmapFactory.decodeFile(filePath);
+        Bitmap bm = BitmapFactory.decodeFile(data);
         ((ImageView) holder.getView(R.id.iv_image)).setImageBitmap(bm);
         
     }
