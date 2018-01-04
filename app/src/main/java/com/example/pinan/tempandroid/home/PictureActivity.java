@@ -10,13 +10,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pinan.tempandroid.R;
+import com.example.pinan.tempandroid.base.App;
 import com.example.pinan.tempandroid.base.BaseActivity;
 import com.example.pinan.tempandroid.base.SimpleDialogFragment;
 import com.example.pinan.tempandroid.home.adapter.PhotoAllAdapter;
 import com.example.pinan.tempandroid.utils.PhotoUtil;
+import com.example.pinan.tempandroid.utils.PreferencesUtils;
 import com.example.pinan.tempandroid.utils.RecyclerViewItemClick;
 import com.yanzhenjie.album.Album;
 
@@ -35,6 +38,8 @@ import butterknife.OnClick;
 public class PictureActivity extends BaseActivity {
     @BindView(R.id.iv_single_pic)
     ImageView mImageView;
+    @BindView(R.id.tv_sms)
+    TextView tvSms;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,8 +78,12 @@ public class PictureActivity extends BaseActivity {
     void onSinglePicClick() {
 //        PhotoUtil.selectSinglePic(this, PhotoUtil.REQUEST_CODE_PICK_IMAGE);
         PhotoUtil.selectMorePic(this, PhotoUtil.PICK_IMAGE);
-        
-        
+    }
+    
+    @OnClick(R.id.btn_test)
+    void onTestClick() {
+        String sms = PreferencesUtils.getInstance(App.sContext).getString("sms");
+        tvSms.setText(sms);
     }
     
     @Override
@@ -116,7 +125,6 @@ public class PictureActivity extends BaseActivity {
             }
             System.out.println(pathList.get(page).toString());
             if (mImageView == null) {
-                mImageView.getHandler().removeCallbacksAndMessages(null);
                 return;
             }
             mImageView.setImageBitmap(BitmapFactory.decodeFile(pathList.get(page)));

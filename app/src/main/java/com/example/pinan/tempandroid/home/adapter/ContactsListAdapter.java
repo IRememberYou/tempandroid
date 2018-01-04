@@ -19,6 +19,9 @@ public class ContactsListAdapter extends QuickAdapter<ContactsMessagge> {
     
     @Override
     protected void onBindViewHolder(ViewHolder holder, ContactsMessagge messagge) {
+        if (messagge.phone.size() <= 0) {
+            return;
+        }
         holder.setText(R.id.tv_name, messagge.name)
             .setText(R.id.tv_phone, messagge.phone.get(0));
     }

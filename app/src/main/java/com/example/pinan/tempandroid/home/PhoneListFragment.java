@@ -1,6 +1,8 @@
 package com.example.pinan.tempandroid.home;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,8 @@ import com.example.pinan.tempandroid.home.bean.CallHistory;
 import com.example.pinan.tempandroid.home.bean.ContactsMessagge;
 import com.example.pinan.tempandroid.utils.PhoneUtil;
 import com.example.pinan.tempandroid.utils.RecyclerViewItemClick;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -49,7 +53,16 @@ public class PhoneListFragment extends BaseFragemnt {
         if (tag.equals("联系人")) {
             recyclerView.setAdapter(new ContactsListAdapter(PhoneUtil.getContacts(mContext)));
         } else if (tag.equals("通话记录")) {
-            recyclerView.setAdapter(new CallHistoryAdapter(PhoneUtil.getCallHistoryList(mContext)));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    List<CallHistory> callHistoryList = PhoneUtil.getCallHistoryList(mContext);
+                    Message message = new Message();
+                    message.obj = callHistoryList;
+                    mHandler.sendMessage(message);
+                }
+            }).start();
+//            recyclerView.setAdapter(new CallHistoryAdapter(PhoneUtil.getCallHistoryList(mContext)));
         }
         
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClick() {
@@ -67,4 +80,16 @@ public class PhoneListFragment extends BaseFragemnt {
             }
         });
     }
+    
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            List<CallHistory> callHistoryList = (List<CallHistory>) msg.obj;
+            if (recyclerView == null) {
+                return;
+            }
+            recyclerView.setAdapter(new CallHistoryAdapter(callHistoryList));
+        }
+    };
 }

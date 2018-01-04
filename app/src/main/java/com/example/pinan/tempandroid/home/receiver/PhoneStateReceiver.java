@@ -4,9 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
-
-import com.example.pinan.tempandroid.utils.HangUpTelephonyUtil;
 
 /**
  * @author pinan
@@ -41,10 +38,10 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             
             if (TelephonyManager.EXTRA_STATE_RINGING.equals(state)) {
                 //10086来电了,就直接挂掉电话(做来电拦截)
-                if ("10086".equals(extraIncomingNumber)) {
-                    HangUpTelephonyUtil.endCall(context);
-                    Toast.makeText(context, "电话挂断了", Toast.LENGTH_SHORT).show();
-                }
+//                if ("10086".equals(extraIncomingNumber)) {
+//                    HangUpTelephonyUtil.endCall(context);
+//                    Toast.makeText(context, "电话挂断了", Toast.LENGTH_SHORT).show();
+//                }
             }
         }
     }

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.example.pinan.tempandroid.base.App;
+import com.example.pinan.tempandroid.utils.PreferencesUtils;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
@@ -35,7 +38,13 @@ public class SmsReceiver extends BroadcastReceiver {
                 Date date = new Date(sms.getTimestampMillis());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String time = sdf.format(date);
-                System.out.println("接受短信的时间: " + time);
+                
+                System.out.println("接受短信的时间: " + time + "\n" +
+                    "电话号码:  " + phone + "\n" +
+                    "类型: " + status + "\n" +
+                    "内容:  " + emailBody);
+                PreferencesUtils.getInstance(App.sContext)
+                    .putString("sms", phone + " : " + emailBody);
             }
         }
     }
